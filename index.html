@@ -1,0 +1,598 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="个人计算机科学主页" />
+  <title>隋育铜 | Computer Science</title>
+
+  <style>
+    :root {
+      --bg: #0b1118;
+      --panel: #101923;
+      --panel-light: #162330;
+      --text: #e6edf3;
+      --muted: #8b9aaa;
+      --line: #263646;
+      --accent: #55b7ff;
+      --accent-dark: #12649b;
+      --code: #9cdcfe;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      color: var(--text);
+      background:
+        linear-gradient(rgba(11, 17, 24, 0.94), rgba(11, 17, 24, 0.98)),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 31px,
+          rgba(85, 183, 255, 0.035) 32px
+        );
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(100% - 40px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(11, 17, 24, 0.88);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: Consolas, monospace;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      color: var(--accent);
+      font-size: 22px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .hero {
+      min-height: 650px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 80px;
+      padding: 96px 0;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+
+    .personal-label {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border: 1px solid var(--accent-dark);
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-name {
+      display: block;
+      color: var(--accent);
+      font-size: 0.68em;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      max-width: 700px;
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+      margin-bottom: 26px;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .hero-description {
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      border: 1px solid var(--accent);
+      padding: 10px 18px;
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      transition: 0.2s ease;
+    }
+
+    .button.primary {
+      color: #07111a;
+      background: var(--accent);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(85, 183, 255, 0.18);
+    }
+
+    .terminal {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--line);
+    }
+
+    .terminal-body {
+      padding: 24px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .terminal-body p {
+      margin-bottom: 12px;
+    }
+
+    .prompt {
+      color: var(--accent);
+    }
+
+    .value {
+      color: var(--code);
+    }
+
+    section {
+      padding: 90px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 34px;
+    }
+
+    .section-number {
+      color: var(--accent);
+      font-family: Consolas, monospace;
+    }
+
+    h2 {
+      font-size: 30px;
+      letter-spacing: -0.03em;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    .about-grid p {
+      color: var(--muted);
+    }
+
+    .facts {
+      display: grid;
+      gap: 14px;
+    }
+
+    .fact {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .fact span:first-child {
+      color: var(--muted);
+    }
+
+    .fact span:last-child {
+      color: var(--code);
+      text-align: right;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .project {
+      display: flex;
+      flex-direction: column;
+      min-height: 250px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      background: rgba(16, 25, 35, 0.76);
+      transition: 0.2s ease;
+    }
+
+    .project:hover {
+      border-color: var(--accent-dark);
+      transform: translateY(-4px);
+    }
+
+    .project-label {
+      color: var(--accent);
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .project h3 {
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    .project p {
+      flex: 1;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .tech-stack span {
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      color: var(--code);
+      font-family: Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .contact p {
+      color: var(--muted);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+      font-family: Consolas, monospace;
+    }
+
+    .contact-list a {
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      color: var(--code);
+    }
+
+    .contact-list a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: Consolas, monospace;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero,
+      .about-grid,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        gap: 48px;
+        padding: 72px 0;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 64px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <nav class="nav container" aria-label="主导航">
+      <a class="brand" href="#">
+        <span class="brand-mark">[ ]</span>
+        隋育铜
+      </a>
+
+      <div class="nav-links">
+        <a href="#about">关于我</a>
+        <a href="#projects">项目</a>
+        <a href="#contact">联系</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div>
+        <p class="personal-label">MY PERSONAL HOMEPAGE</p>
+        <p class="eyebrow">// COMPUTER SCIENCE · SOFTWARE ENGINEERING</p>
+        <h1>
+          <span class="hero-name">隋育铜</span>
+          构建可靠、清晰且有价值的<span>软件系统。</span>
+        </h1>
+        <p class="hero-description">
+          你好，我是隋育铜，热爱数据结构与算法分析等理论内容，
+          也喜欢将所学知识应用于实际软件系统的设计与开发。
+        </p>
+
+        <div class="actions">
+          <a class="button primary" href="#projects">查看项目</a>
+          <button class="button" id="import-profile" type="button">一键导入</button>
+          <a class="button" href="https://github.com/suiyutong61" target="_blank">
+            GitHub →
+          </a>
+        </div>
+        <p class="import-status" id="import-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="terminal" aria-label="个人信息终端">
+        <div class="terminal-header">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span style="margin-left: 8px;">profile.sh</span>
+        </div>
+
+        <div class="terminal-body">
+          <p><span class="prompt">$</span> whoami</p>
+          <p class="value">suiyutong61</p>
+
+          <p><span class="prompt">$</span> cat focus.txt</p>
+          <p class="value">Data Structures</p>
+          <p class="value">Algorithm Analysis</p>
+          <p class="value">Theory &amp; Practice</p>
+
+          <p><span class="prompt">$</span> status</p>
+          <p class="value">Learning and building useful things.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-number">01.</span>
+          <h2>关于我</h2>
+        </div>
+
+        <div class="about-grid">
+          <p>
+            我热爱数据结构与算法分析等理论内容，注重通过扎实的基础知识
+            解决实际开发中的问题，并在项目实践中持续提升编程与系统设计能力。
+          </p>
+
+          <div class="facts">
+            <div class="fact">
+              <span>所在地</span>
+              <span>China</span>
+            </div>
+            <div class="fact">
+              <span>当前身份</span>
+              <span>Student / Developer</span>
+            </div>
+            <div class="fact">
+              <span>主要方向</span>
+              <span>Data Structures &amp; Algorithms</span>
+            </div>
+            <div class="fact">
+              <span>工作方式</span>
+              <span>理论结合实践</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-number">02.</span>
+          <h2>精选项目</h2>
+        </div>
+
+        <div class="projects">
+          <article class="project">
+            <span class="project-label">PROJECT_001</span>
+            <h3>实时聊天系统</h3>
+            <p>
+              支持实时消息交互的聊天系统，涵盖用户通信、消息处理
+              与清晰的系统交互流程。
+            </p>
+            <div class="tech-stack">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>JavaScript</span>
+            </div>
+          </article>
+
+          <article class="project">
+            <span class="project-label">PROJECT_002</span>
+            <h3>实验室考勤系统</h3>
+            <p>
+              用于实验室日常考勤管理的系统，帮助记录、整理和查询
+              实验室成员的出勤信息。
+            </p>
+            <div class="tech-stack">
+              <span>C/C++</span>
+              <span>Linux</span>
+              <span>JavaScript</span>
+            </div>
+          </article>
+
+          <article class="project">
+            <span class="project-label">PROJECT_003</span>
+            <h3>实验室自习签到系统</h3>
+            <p>
+              面向实验室自习场景的签到系统，便于记录自习参与情况，
+              提升实验室学习管理的效率。
+            </p>
+            <div class="tech-stack">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>Linux</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container contact">
+        <div>
+          <div class="section-heading">
+            <span class="section-number">03.</span>
+            <h2>建立联系</h2>
+          </div>
+          <p>
+            如果你有项目合作、技术交流或其他想法，欢迎通过以下方式联系我。
+          </p>
+        </div>
+
+        <div class="contact-list">
+          <a href="https://github.com/suiyutong61" target="_blank">
+            GitHub / suiyutong61
+          </a>
+          <a href="mailto:3431775927@qq.com">
+            Email / 3431775927@qq.com
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 隋育铜 · Designed and built with HTML &amp; CSS.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("import-profile").addEventListener("click", async () => {
+      const profile = {
+        name: "隋育铜",
+        focus: ["Data Structures", "Algorithm Analysis", "Theory & Practice"],
+        github: "https://github.com/suiyutong61",
+        email: "3431775927@qq.com",
+        projects: ["实时聊天系统", "实验室考勤系统", "实验室自习签到系统"],
+        skills: ["HTML + CSS + JS", "Linux指令", "C/C++语言"]
+      };
+      const status = document.getElementById("import-status");
+
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(profile, null, 2));
+        status.textContent = "个人资料已复制，可直接导入。";
+      } catch (error) {
+        status.textContent = "当前环境不支持自动复制，请手动保存资料。";
+      }
+    });
+  </script>
+</body>
+</html>
