@@ -1,598 +1,542 @@
-
-
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="个人计算机科学主页" />
-  <title>隋育铜 | Computer Science</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="隋育铜的个人主页：专注于 C++、Qt、Linux 与 AI 应用，构建真正可运行、可维护的软件系统。">
+  <meta name="author" content="隋育铜">
+  <meta name="theme-color" content="#071019">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="隋育铜｜Software Developer">
+  <meta property="og:description" content="把复杂问题做成真正可运行、可维护的软件系统。">
+  <meta property="og:url" content="https://suiyutong61.github.io/">
+  <meta name="twitter:card" content="summary">
+  <title>隋育铜｜Software Developer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23071019%22/><path d=%22M18 20h28v6H24v6h17c4 0 7 3 7 7s-3 7-7 7H17v-6h24c1 0 2-1 2-2s-1-2-2-2H24c-4 0-7-3-7-8 0-4 3-8 7-8Z%22 fill=%22%2368d5ff%22/></svg>">
   <style>
     :root {
-      --bg: #0b1118;
-      --panel: #101923;
-      --panel-light: #162330;
-      --text: #e6edf3;
-      --muted: #8b9aaa;
-      --line: #263646;
-      --accent: #55b7ff;
-      --accent-dark: #12649b;
-      --code: #9cdcfe;
-      --max-width: 1120px;
+      color-scheme: dark;
+      --bg: #071019;
+      --bg-soft: #0b1722;
+      --panel: rgba(13, 29, 42, 0.78);
+      --panel-strong: #0e1e2c;
+      --line: rgba(147, 197, 253, 0.16);
+      --line-strong: rgba(104, 213, 255, 0.42);
+      --text: #edf7ff;
+      --muted: #93a9b9;
+      --cyan: #68d5ff;
+      --cyan-soft: rgba(104, 213, 255, 0.12);
+      --green: #82e7ae;
+      --green-soft: rgba(130, 231, 174, 0.11);
+      --max: 1160px;
+      --radius: 22px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      color: var(--text);
+      margin: 0;
+      min-width: 320px;
       background:
-        linear-gradient(rgba(11, 17, 24, 0.94), rgba(11, 17, 24, 0.98)),
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 31px,
-          rgba(85, 183, 255, 0.035) 32px
-        );
-      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
-      line-height: 1.7;
+        radial-gradient(circle at 84% 10%, rgba(35, 130, 179, 0.18), transparent 27rem),
+        radial-gradient(circle at 8% 45%, rgba(56, 154, 105, 0.1), transparent 24rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, "SF Pro Display", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(to bottom, #000, transparent 72%);
     }
 
-    .container {
-      width: min(100% - 40px, var(--max-width));
-      margin: 0 auto;
-    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
 
-    .topbar {
-      border-bottom: 1px solid var(--line);
-      background: rgba(11, 17, 24, 0.88);
-      backdrop-filter: blur(12px);
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 100;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: var(--text);
+      color: var(--bg);
+      transform: translateY(-150%);
+    }
+    .skip-link:focus { transform: none; }
+
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+
+    header {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
+      border-bottom: 1px solid rgba(147, 197, 253, 0.09);
+      background: rgba(7, 16, 25, 0.76);
+      backdrop-filter: blur(18px);
     }
 
-    .nav {
-      min-height: 68px;
+    nav {
+      min-height: 70px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 24px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: Consolas, monospace;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 750; letter-spacing: .01em; }
     .brand-mark {
-      color: var(--accent);
-      font-size: 22px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-    }
-
-    .hero {
-      min-height: 650px;
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 11px;
+      background: linear-gradient(145deg, rgba(104,213,255,.18), rgba(130,231,174,.05));
+      color: var(--cyan);
+      font: 700 12px/1 ui-monospace, "Cascadia Code", monospace;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; color: #bdd0dc; font-size: 14px; }
+    .nav-links a { transition: color .2s ease; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-github {
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255,255,255,.025);
+    }
+
+    main { overflow: hidden; }
+    .hero {
+      min-height: calc(100vh - 70px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.13fr) minmax(360px, .87fr);
       align-items: center;
-      gap: 80px;
-      padding: 96px 0;
+      gap: clamp(44px, 7vw, 90px);
+      padding-block: 82px;
     }
 
-    .eyebrow {
-      color: var(--accent);
-      font-family: Consolas, monospace;
-      font-size: 14px;
-      letter-spacing: 0.08em;
-      margin-bottom: 18px;
+    .kicker, .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--cyan);
+      font: 650 12px/1.4 ui-monospace, "Cascadia Code", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
     }
-
-    .personal-label {
-      display: inline-block;
-      margin-bottom: 12px;
-      padding: 4px 10px;
-      border: 1px solid var(--accent-dark);
-      color: var(--accent);
-      font-family: Consolas, monospace;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-    }
-
-    .hero-name {
-      display: block;
-      color: var(--accent);
-      font-size: 0.68em;
-      letter-spacing: 0.02em;
-      margin-bottom: 10px;
+    .kicker::before, .section-kicker::before {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: currentColor;
+      box-shadow: 0 0 14px currentColor;
     }
 
     h1 {
-      max-width: 700px;
-      font-size: clamp(42px, 7vw, 78px);
-      line-height: 1.1;
-      letter-spacing: -0.05em;
-      margin-bottom: 26px;
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(42px, 6.6vw, 78px);
+      line-height: 1.08;
+      letter-spacing: -.045em;
     }
-
-    h1 span {
-      color: var(--accent);
+    .gradient-text {
+      background: linear-gradient(90deg, var(--text) 15%, var(--cyan) 62%, var(--green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-
-    .hero-description {
-      max-width: 650px;
-      color: var(--muted);
-      font-size: 18px;
-      margin-bottom: 32px;
+    .hero-copy > p {
+      max-width: 680px;
+      margin: 28px 0 0;
+      color: #a9becb;
+      font-size: clamp(17px, 1.7vw, 20px);
     }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 34px; }
 
     .button {
-      border: 1px solid var(--accent);
-      padding: 10px 18px;
-      color: var(--accent);
-      font-family: Consolas, monospace;
-      transition: 0.2s ease;
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 19px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-weight: 680;
+      font-size: 14px;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
     }
-
-    .button.primary {
-      color: #07111a;
-      background: var(--accent);
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(85, 183, 255, 0.18);
-    }
+    .button:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+    .button.primary { background: var(--cyan); border-color: var(--cyan); color: #05202c; }
+    .button.secondary { background: rgba(255,255,255,.025); }
+    .button svg { width: 17px; height: 17px; }
 
     .terminal {
       overflow: hidden;
       border: 1px solid var(--line);
-      background: var(--panel);
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
-      font-family: Consolas, "Courier New", monospace;
+      border-radius: var(--radius);
+      background: rgba(8, 21, 31, .86);
+      box-shadow: var(--shadow);
+      transform: rotate(1deg);
     }
-
-    .terminal-header {
+    .terminal-bar {
       display: flex;
       align-items: center;
       gap: 7px;
-      padding: 13px 16px;
+      min-height: 48px;
+      padding: 0 17px;
       border-bottom: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 13px;
+      background: rgba(255,255,255,.025);
     }
-
-    .dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--line);
-    }
-
+    .terminal-dot { width: 9px; height: 9px; border-radius: 50%; background: #ff6b69; }
+    .terminal-dot:nth-child(2) { background: #f8c65e; }
+    .terminal-dot:nth-child(3) { background: #75d99a; }
+    .terminal-title { margin-left: auto; color: #60798a; font: 11px ui-monospace, monospace; }
     .terminal-body {
-      padding: 24px;
-      color: var(--muted);
+      min-height: 365px;
+      padding: 27px 25px;
+      color: #c7d8e3;
+      font: 14px/1.85 ui-monospace, "Cascadia Code", "SFMono-Regular", monospace;
+    }
+    .prompt { color: var(--green); }
+    .command { color: var(--cyan); }
+    .terminal-label { color: #61798a; }
+    .terminal-value { color: #eef9ff; }
+    .terminal-row { display: grid; grid-template-columns: 86px 1fr; gap: 12px; margin: 5px 0; }
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      margin-left: 5px;
+      vertical-align: -3px;
+      background: var(--green);
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    section { padding-block: 104px; }
+    .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 60px; align-items: end; margin-bottom: 46px; }
+    .section-head h2 { margin: 0; font-size: clamp(34px, 4.3vw, 52px); line-height: 1.12; letter-spacing: -.035em; }
+    .section-head > p { max-width: 660px; margin: 0; color: var(--muted); font-size: 17px; }
+
+    .about-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: 0 16px 50px rgba(0,0,0,.14);
+    }
+    .about-copy { padding: clamp(26px, 4vw, 44px); }
+    .about-copy p { margin: 0 0 18px; color: #b2c4cf; font-size: 17px; }
+    .about-copy p:last-child { margin-bottom: 0; }
+    .facts { display: grid; padding: 10px 28px; }
+    .fact { display: grid; grid-template-columns: 108px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .fact:last-child { border-bottom: 0; }
+    .fact dt { color: #6f899b; font: 12px/1.6 ui-monospace, monospace; text-transform: uppercase; letter-spacing: .08em; }
+    .fact dd { margin: 0; color: #dce9f1; }
+
+    .projects { position: relative; }
+    .featured-project {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      overflow: hidden;
+      border-color: rgba(104,213,255,.27);
+      background: linear-gradient(140deg, rgba(16, 39, 56, .96), rgba(10, 25, 36, .87));
+    }
+    .project-content { padding: clamp(28px, 5vw, 56px); }
+    .project-topline { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .project-index { color: var(--cyan); font: 12px ui-monospace, monospace; }
+    .badge { padding: 5px 9px; border: 1px solid rgba(130,231,174,.25); border-radius: 999px; background: var(--green-soft); color: var(--green); font: 700 11px ui-monospace, monospace; }
+    .featured-project h3 { margin: 18px 0 8px; font-size: clamp(34px, 5vw, 54px); line-height: 1; letter-spacing: -.04em; }
+    .project-subtitle { margin: 0 0 21px; color: var(--cyan); font: 13px ui-monospace, monospace; }
+    .project-description { margin: 0; color: #afc3d0; font-size: 17px; }
+    .feature-list { display: grid; gap: 11px; margin: 26px 0 30px; padding: 0; list-style: none; }
+    .feature-list li { position: relative; padding-left: 24px; color: #c7d6df; }
+    .feature-list li::before { content: "→"; position: absolute; left: 0; color: var(--green); }
+    .project-links { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .project-visual {
+      display: grid;
+      align-content: center;
+      padding: clamp(28px, 4vw, 48px);
+      border-left: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(104,213,255,.12), transparent 55%),
+        rgba(4, 15, 23, .45);
+    }
+    .flow-title { margin: 0 0 25px; color: #6e8798; font: 11px ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .flow { display: grid; gap: 8px; }
+    .flow-node {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: rgba(255,255,255,.025);
+      color: #dce9f1;
       font-size: 14px;
     }
+    .flow-node span { color: #617b8d; font: 11px ui-monospace, monospace; }
+    .flow-arrow { height: 15px; margin-left: 27px; border-left: 1px dashed rgba(104,213,255,.48); }
+    .flow-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .flow-split .flow-node { display: grid; justify-content: stretch; }
+    .flow-node.active { border-color: rgba(130,231,174,.35); background: var(--green-soft); }
 
-    .terminal-body p {
-      margin-bottom: 12px;
-    }
+    .other-projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+    .small-project { min-height: 260px; padding: 28px; transition: transform .2s ease, border-color .2s ease; }
+    .small-project:hover { transform: translateY(-4px); border-color: rgba(104,213,255,.3); }
+    .small-project h3 { margin: 34px 0 12px; font-size: 22px; }
+    .small-project p { margin: 0; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 23px; }
+    .tag { padding: 5px 8px; border-radius: 7px; background: rgba(104,213,255,.07); color: #8fc7de; font: 11px ui-monospace, monospace; }
 
-    .prompt {
-      color: var(--accent);
-    }
-
-    .value {
-      color: var(--code);
-    }
-
-    section {
-      padding: 90px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 34px;
-    }
-
-    .section-number {
-      color: var(--accent);
-      font-family: Consolas, monospace;
-    }
-
-    h2 {
-      font-size: 30px;
-      letter-spacing: -0.03em;
-    }
-
-    .about-grid {
+    .contact-card {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 40px;
+      padding: clamp(30px, 5vw, 58px);
+      background: linear-gradient(130deg, rgba(17,43,59,.9), rgba(10,27,39,.8));
     }
+    .contact-card h2 { max-width: 760px; margin: 0; font-size: clamp(31px, 4.5vw, 52px); line-height: 1.15; letter-spacing: -.035em; }
+    .contact-card p { max-width: 680px; margin: 18px 0 0; color: var(--muted); }
+    .contact-actions { display: grid; gap: 11px; min-width: 170px; }
 
-    .about-grid p {
-      color: var(--muted);
-    }
-
-    .facts {
-      display: grid;
-      gap: 14px;
-    }
-
-    .fact {
+    footer {
       display: flex;
       justify-content: space-between;
       gap: 24px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .fact span:first-child {
-      color: var(--muted);
-    }
-
-    .fact span:last-child {
-      color: var(--code);
-      text-align: right;
-    }
-
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .project {
-      display: flex;
-      flex-direction: column;
-      min-height: 250px;
-      padding: 24px;
-      border: 1px solid var(--line);
-      background: rgba(16, 25, 35, 0.76);
-      transition: 0.2s ease;
-    }
-
-    .project:hover {
-      border-color: var(--accent-dark);
-      transform: translateY(-4px);
-    }
-
-    .project-label {
-      color: var(--accent);
-      font-family: Consolas, monospace;
-      font-size: 12px;
-      margin-bottom: 18px;
-    }
-
-    .project h3 {
-      margin-bottom: 12px;
-      font-size: 20px;
-    }
-
-    .project p {
-      flex: 1;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 20px;
-    }
-
-    .tech-stack span {
-      padding: 3px 8px;
-      border: 1px solid var(--line);
-      color: var(--code);
-      font-family: Consolas, monospace;
-      font-size: 12px;
-    }
-
-    .contact {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    .contact p {
-      color: var(--muted);
-    }
-
-    .contact-list {
-      display: grid;
-      gap: 12px;
-      font-family: Consolas, monospace;
-    }
-
-    .contact-list a {
-      padding: 12px 16px;
-      border: 1px solid var(--line);
-      color: var(--code);
-    }
-
-    .contact-list a:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    footer {
-      padding: 28px 0;
+      padding-block: 30px 44px;
       border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-family: Consolas, monospace;
+      color: #607889;
       font-size: 13px;
     }
 
-    @media (max-width: 800px) {
-      .nav-links {
-        display: none;
-      }
+    @media (max-width: 900px) {
+      .hero { min-height: auto; grid-template-columns: 1fr; padding-block: 76px; }
+      .terminal { max-width: 620px; transform: none; }
+      .section-head, .about-grid, .featured-project { grid-template-columns: 1fr; }
+      .section-head { gap: 18px; }
+      .project-visual { border-top: 1px solid var(--line); border-left: 0; }
+      .other-projects { grid-template-columns: 1fr 1fr; }
+      .small-project:last-child { grid-column: 1 / -1; }
+      .contact-card { grid-template-columns: 1fr; }
+      .contact-actions { display: flex; flex-wrap: wrap; }
+    }
 
-      .hero,
-      .about-grid,
-      .contact {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 640px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      nav { min-height: 64px; }
+      .brand-name { display: none; }
+      .nav-links { gap: 15px; font-size: 13px; }
+      .nav-links a:nth-child(1) { display: none; }
+      .nav-github { padding: 7px 9px; }
+      .hero { padding-block: 60px 76px; }
+      h1 { font-size: clamp(40px, 13vw, 58px); }
+      section { padding-block: 78px; }
+      .terminal-body { min-height: 330px; padding: 22px 17px; font-size: 12px; }
+      .terminal-row { grid-template-columns: 68px 1fr; gap: 8px; }
+      .facts { padding-inline: 21px; }
+      .fact { grid-template-columns: 1fr; gap: 5px; }
+      .other-projects { grid-template-columns: 1fr; }
+      .small-project:last-child { grid-column: auto; }
+      .flow-split { grid-template-columns: 1fr; }
+      footer { flex-direction: column; }
+    }
 
-      .hero {
-        min-height: auto;
-        gap: 48px;
-        padding: 72px 0;
-      }
-
-      .projects {
-        grid-template-columns: 1fr;
-      }
-
-      section {
-        padding: 64px 0;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
-
 <body>
-  <header class="topbar">
-    <nav class="nav container" aria-label="主导航">
-      <a class="brand" href="#">
-        <span class="brand-mark">[ ]</span>
-        隋育铜
-      </a>
+  <a class="skip-link" href="#main">跳到主要内容</a>
 
+  <header>
+    <nav class="wrap" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="返回首页">
+        <span class="brand-mark" aria-hidden="true">SYT</span>
+        <span class="brand-name">隋育铜</span>
+      </a>
       <div class="nav-links">
-        <a href="#about">关于我</a>
+        <a href="#about">关于</a>
         <a href="#projects">项目</a>
         <a href="#contact">联系</a>
+        <a class="nav-github" href="https://github.com/suiyutong61" target="_blank" rel="noreferrer">GitHub ↗</a>
       </div>
     </nav>
   </header>
 
-  <main>
-    <section class="hero container">
-      <div>
-        <p class="personal-label">MY PERSONAL HOMEPAGE</p>
-        <p class="eyebrow">// COMPUTER SCIENCE · SOFTWARE ENGINEERING</p>
-        <h1>
-          <span class="hero-name">隋育铜</span>
-          构建可靠、清晰且有价值的<span>软件系统。</span>
-        </h1>
-        <p class="hero-description">
-          你好，我是隋育铜，热爱数据结构与算法分析等理论内容，
-          也喜欢将所学知识应用于实际软件系统的设计与开发。
-        </p>
-
-        <div class="actions">
-          <a class="button primary" href="#projects">查看项目</a>
-          <button class="button" id="import-profile" type="button">一键导入</button>
-          <a class="button" href="https://github.com/suiyutong61" target="_blank">
-            GitHub →
+  <main id="main">
+    <section class="hero wrap" id="top">
+      <div class="hero-copy">
+        <p class="kicker">Software developer · Product builder</p>
+        <h1>你好，我是隋育铜。<span class="gradient-text">把复杂问题做成真正可运行的系统。</span></h1>
+        <p>我关注 C++、Qt、Linux 与 AI 应用开发。从需求、架构、数据到交互，把模糊想法推进为能使用、能维护、能继续迭代的软件。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/suiyutong61/PersonalOS" target="_blank" rel="noreferrer">
+            查看 PersonOS
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
+          <a class="button secondary" href="#projects">浏览项目</a>
         </div>
-        <p class="import-status" id="import-status" role="status" aria-live="polite"></p>
       </div>
 
-      <div class="terminal" aria-label="个人信息终端">
-        <div class="terminal-header">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span style="margin-left: 8px;">profile.sh</span>
+      <div class="terminal" aria-label="开发者信息">
+        <div class="terminal-bar">
+          <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
+          <span class="terminal-title">profile.sh</span>
         </div>
-
         <div class="terminal-body">
-          <p><span class="prompt">$</span> whoami</p>
-          <p class="value">suiyutong61</p>
-
-          <p><span class="prompt">$</span> cat focus.txt</p>
-          <p class="value">Data Structures</p>
-          <p class="value">Algorithm Analysis</p>
-          <p class="value">Theory &amp; Practice</p>
-
-          <p><span class="prompt">$</span> status</p>
-          <p class="value">Learning and building useful things.</p>
+          <div><span class="prompt">visitor@portfolio</span>:<span class="command">~$</span> whoami</div>
+          <div class="terminal-row"><span class="terminal-label">name</span><span class="terminal-value">隋育铜 / Sui Yutong</span></div>
+          <div class="terminal-row"><span class="terminal-label">role</span><span class="terminal-value">Software Developer</span></div>
+          <br>
+          <div><span class="prompt">visitor@portfolio</span>:<span class="command">~$</span> project --latest</div>
+          <div class="terminal-row"><span class="terminal-label">name</span><span class="terminal-value">PersonOS</span></div>
+          <div class="terminal-row"><span class="terminal-label">version</span><span class="terminal-value">v1.00 · 更智能</span></div>
+          <div class="terminal-row"><span class="terminal-label">stack</span><span class="terminal-value">C++20 · Qt 6 · QML · SQLite · AI</span></div>
+          <div class="terminal-row"><span class="terminal-label">status</span><span class="terminal-value" style="color: var(--green)">released ✓</span></div>
+          <br>
+          <div><span class="prompt">visitor@portfolio</span>:<span class="command">~$</span><span class="cursor"></span></div>
         </div>
       </div>
     </section>
 
-    <section id="about">
-      <div class="container">
-        <div class="section-heading">
-          <span class="section-number">01.</span>
-          <h2>关于我</h2>
-        </div>
-
-        <div class="about-grid">
-          <p>
-            我热爱数据结构与算法分析等理论内容，注重通过扎实的基础知识
-            解决实际开发中的问题，并在项目实践中持续提升编程与系统设计能力。
-          </p>
-
-          <div class="facts">
-            <div class="fact">
-              <span>所在地</span>
-              <span>China</span>
-            </div>
-            <div class="fact">
-              <span>当前身份</span>
-              <span>Student / Developer</span>
-            </div>
-            <div class="fact">
-              <span>主要方向</span>
-              <span>Data Structures &amp; Algorithms</span>
-            </div>
-            <div class="fact">
-              <span>工作方式</span>
-              <span>理论结合实践</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <div class="container">
-        <div class="section-heading">
-          <span class="section-number">02.</span>
-          <h2>精选项目</h2>
-        </div>
-
-        <div class="projects">
-          <article class="project">
-            <span class="project-label">PROJECT_001</span>
-            <h3>实时聊天系统</h3>
-            <p>
-              支持实时消息交互的聊天系统，涵盖用户通信、消息处理
-              与清晰的系统交互流程。
-            </p>
-            <div class="tech-stack">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
-            </div>
-          </article>
-
-          <article class="project">
-            <span class="project-label">PROJECT_002</span>
-            <h3>实验室考勤系统</h3>
-            <p>
-              用于实验室日常考勤管理的系统，帮助记录、整理和查询
-              实验室成员的出勤信息。
-            </p>
-            <div class="tech-stack">
-              <span>C/C++</span>
-              <span>Linux</span>
-              <span>JavaScript</span>
-            </div>
-          </article>
-
-          <article class="project">
-            <span class="project-label">PROJECT_003</span>
-            <h3>实验室自习签到系统</h3>
-            <p>
-              面向实验室自习场景的签到系统，便于记录自习参与情况，
-              提升实验室学习管理的效率。
-            </p>
-            <div class="tech-stack">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>Linux</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="container contact">
+    <section class="wrap" id="about">
+      <div class="section-head">
         <div>
-          <div class="section-heading">
-            <span class="section-number">03.</span>
-            <h2>建立联系</h2>
+          <p class="section-kicker">01 / About</p>
+          <h2>面向结果，也尊重工程。</h2>
+        </div>
+        <p>我更关心软件是否真正解决问题：流程是否清楚、功能是否可靠、数据是否安全、用户是否愿意继续使用。技术选择服务于结果，而不是为了堆叠名词。</p>
+      </div>
+
+      <div class="about-grid">
+        <article class="card about-copy">
+          <p>我喜欢从真实需求出发，把复杂业务拆成可以实现、验证和演进的模块。开发过程中同时关注产品逻辑与工程质量，让系统不仅“跑起来”，也能承受后续迭代。</p>
+          <p>目前的核心作品是 <strong>PersonOS</strong>：一套本地优先的个人学习与行动系统。它将长期目标、学习路线、阶段任务、AI 对话、进度确认和证据沉淀连成一条完整工作流。</p>
+        </article>
+        <dl class="card facts">
+          <div class="fact"><dt>Focus</dt><dd>C++ / Qt / Linux / AI 应用</dd></div>
+          <div class="fact"><dt>Principle</dt><dd>实用、清晰、可维护</dd></div>
+          <div class="fact"><dt>Working on</dt><dd>桌面软件与智能工作流</dd></div>
+          <div class="fact"><dt>Location</dt><dd>China</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="projects wrap" id="projects">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">02 / Selected work</p>
+          <h2>不是概念展示，是完整产品。</h2>
+        </div>
+        <p>以下项目来自真实问题和持续迭代。PersonOS v1.00 是目前最完整的一次实践：从产品概念、交互重构到数据库、AI 工作流、发布交付，形成可运行闭环。</p>
+      </div>
+
+      <article class="card featured-project">
+        <div class="project-content">
+          <div class="project-topline">
+            <span class="project-index">FEATURED PROJECT</span>
+            <span class="badge">v1.00 RELEASED</span>
           </div>
-          <p>
-            如果你有项目合作、技术交流或其他想法，欢迎通过以下方式联系我。
-          </p>
+          <h3>PersonOS</h3>
+          <p class="project-subtitle">Local-first personal learning & action system</p>
+          <p class="project-description">把“我想成为什么”转化为清晰、可执行、可追踪的行动路线。系统负责组织目标、知识与进度，AI 提供建议，最终决定始终由用户确认。</p>
+          <ul class="feature-list">
+            <li>长期目标 → 粗粒度路线 → 阶段详情 → 最小执行单元</li>
+            <li>用户用自然语言汇报，AI 生成候选更新，确认后写入进度</li>
+            <li>本地知识库、学习证据、快照与复盘统一沉淀</li>
+            <li>SQLite 迁移、事务、审计、提醒、备份与自动化测试</li>
+          </ul>
+          <div class="project-links">
+            <a class="button primary" href="https://github.com/suiyutong61/PersonalOS" target="_blank" rel="noreferrer">查看源码 ↗</a>
+            <a class="button secondary" href="https://github.com/suiyutong61/PersonalOS/releases/tag/v1.00" target="_blank" rel="noreferrer">下载 v1.00 ↗</a>
+          </div>
         </div>
 
-        <div class="contact-list">
-          <a href="https://github.com/suiyutong61" target="_blank">
-            GitHub / suiyutong61
-          </a>
-          <a href="mailto:3431775927@qq.com">
-            Email / 3431775927@qq.com
-          </a>
+        <div class="project-visual" aria-label="PersonOS 工作流示意">
+          <p class="flow-title">How PersonOS works</p>
+          <div class="flow">
+            <div class="flow-node"><strong>确定长期目标</strong><span>GOAL</span></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node"><strong>生成粗粒度学习路线</strong><span>ROUTE</span></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-split">
+              <div class="flow-node"><strong>阶段详情</strong><span>STAGE</span></div>
+              <div class="flow-node"><strong>最小执行单元</strong><span>MEL</span></div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node active"><strong>向 AI 汇报实际进度</strong><span>REPORT</span></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node"><strong>用户确认后更新</strong><span>CONFIRM</span></div>
+          </div>
+        </div>
+      </article>
+
+      <div class="other-projects">
+        <article class="card small-project">
+          <span class="project-index">01 / NETWORK</span>
+          <h3>实时聊天系统</h3>
+          <p>围绕连接管理、消息传递与并发处理构建的网络通信实践，关注稳定连接与清晰的交互反馈。</p>
+          <div class="tags"><span class="tag">C++</span><span class="tag">Socket</span><span class="tag">Concurrency</span></div>
+        </article>
+        <article class="card small-project">
+          <span class="project-index">02 / MANAGEMENT</span>
+          <h3>实验室考勤系统</h3>
+          <p>针对日常考勤场景设计的数据管理工具，将人员、记录与统计流程集中到统一界面中。</p>
+          <div class="tags"><span class="tag">Qt</span><span class="tag">Database</span><span class="tag">Desktop</span></div>
+        </article>
+        <article class="card small-project">
+          <span class="project-index">03 / WORKFLOW</span>
+          <h3>实验室自习签到</h3>
+          <p>从实际管理需求出发，简化签到、状态查看和记录追踪，让重复流程更直接、更可验证。</p>
+          <div class="tags"><span class="tag">Workflow</span><span class="tag">UI</span><span class="tag">Data</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap" id="contact">
+      <div class="card contact-card">
+        <div>
+          <p class="section-kicker">03 / Contact</p>
+          <h2>如果你也在做值得落地的东西，我们可以聊聊。</h2>
+          <p>欢迎交流软件开发、桌面应用、Linux、AI 产品设计，或者任何需要从混乱走向清晰的问题。</p>
+        </div>
+        <div class="contact-actions">
+          <a class="button primary" href="mailto:3431775927@qq.com">发送邮件</a>
+          <a class="button secondary" href="https://github.com/suiyutong61" target="_blank" rel="noreferrer">GitHub ↗</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      © 2026 隋育铜 · Designed and built with HTML &amp; CSS.
-    </div>
+  <footer class="wrap">
+    <span>© <span id="year">2026</span> 隋育铜</span>
+    <span>Designed & built with intention.</span>
   </footer>
 
   <script>
-    document.getElementById("import-profile").addEventListener("click", async () => {
-      const profile = {
-        name: "隋育铜",
-        focus: ["Data Structures", "Algorithm Analysis", "Theory & Practice"],
-        github: "https://github.com/suiyutong61",
-        email: "3431775927@qq.com",
-        projects: ["实时聊天系统", "实验室考勤系统", "实验室自习签到系统"],
-        skills: ["HTML + CSS + JS", "Linux指令", "C/C++语言"]
-      };
-      const status = document.getElementById("import-status");
-
-      try {
-        await navigator.clipboard.writeText(JSON.stringify(profile, null, 2));
-        status.textContent = "个人资料已复制，可直接导入。";
-      } catch (error) {
-        status.textContent = "当前环境不支持自动复制，请手动保存资料。";
-      }
-    });
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
